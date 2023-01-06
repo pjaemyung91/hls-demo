@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+<div>
+    <button onclick="play()">재생</button>
+</div>
+<div>
+    <video id="video"></video>
+</div>
+<script>
+    console.log("script init");
+    var video = document.getElementById('video');
+    var videoSrc = "/hls/demo.m3u8";
+    //
+    // First check for native browser HLS support
+    //
+    if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = videoSrc;
+        //
+        // If no native HLS support, check if HLS.js is supported
+        //
+    } else if (Hls.isSupported()) {
+        var hls = new Hls();
+        hls.loadSource(videoSrc);
+        hls.attachMedia(video);
+    }
+
+    function play() {
+        console.log("play button clicked");
+        video.play();
+    }
+</script>
+</body>
+</html>
